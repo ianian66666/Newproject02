@@ -90,4 +90,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return pageResult;
     }
+
+    @Override
+    public void stopOrStart(Long id, Integer status) {
+        Employee employee = new Employee();
+        employee.setId(id);
+        employee.setStatus(status);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.updata(employee);
+    }
 }

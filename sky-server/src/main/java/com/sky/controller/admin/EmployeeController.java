@@ -93,4 +93,18 @@ public class EmployeeController {
         PageResult pageResult =  employeeService.pageEmpQuery(employeePageQueryDTO);
         return  Result.success(pageResult);
     }
+
+    /**
+     * 啟用停用帳號
+     * @param id
+     * @param status
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("啟用停用帳號")
+    public Result stopOrStart(Long id,@PathVariable Integer status ){
+        log.info("啟用停用帳號：{}",id ,status);
+        employeeService.stopOrStart(id,status);
+        return  Result.success();
+    }
 }
