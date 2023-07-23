@@ -20,7 +20,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import  java.util.List;
+
+import java.util.List;
 
 import java.time.LocalDateTime;
 
@@ -82,10 +83,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public PageResult pageEmpQuery(EmployeePageQueryDTO employeePageQueryDTO) {
-        PageHelper .startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
-        Page<Employee> employeePage =  employeeMapper.pageEmpQuery(employeePageQueryDTO);
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+        Page<Employee> employeePage = employeeMapper.pageEmpQuery(employeePageQueryDTO);
 
-        PageResult pageResult = new PageResult(employeePage.getTotal(),employeePage.getResult());
+        PageResult pageResult = new PageResult(employeePage.getTotal(), employeePage.getResult());
 
 
         return pageResult;
@@ -100,5 +101,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.updata(employee);
+    }
+
+    @Override
+    public Employee getById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("****");
+        return employee;
+
+    }
+
+    @Override
+    public void updateEmp(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        employeeMapper.updata(employee);
+
+
     }
 }
